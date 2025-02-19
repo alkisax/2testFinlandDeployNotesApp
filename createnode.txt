@@ -1,0 +1,95 @@
+npm init
+
+The start npm script works because we defined it in the package.json file:
+
+{
+  // ...
+  "scripts": {
+    "start": "node index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  // ...
+}
+**************************
+
+index.js file as follows:
+
+const http = require('http')
+
+const app = http.createServer((request, response) => {
+  response.writeHead(200, { 'Content-Type': 'text/plain' })
+  response.end('Hello World')
+})
+
+const PORT = 3001
+app.listen(PORT)
+console.log(`Server running on port ${PORT}`)
+
+
+*********************
+npm install express
+
+we can install all up-to-date dependencies of the project defined in package.json by running this next command in the project's root directory:
+npm install
+
+nodemon will watch the files in the directory in which nodemon was started, and if any files change, nodemon will automatically restart your node application.
+npm install --save-dev nodemon
+
+We can start our application with nodemon like this:
+node_modules/.bin/nodemon index.js
+
+The command is long and quite unpleasant, so let's define a dedicated npm script for it in the package.json file:
+{
+  // ..
+  "scripts": {
+    "start": "node index.js",
+    "dev": "nodemon index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  // ..
+}
+We can now start the server in development mode with the command:
+npm run dev
+
+to use morgan logger
+npm install morgan
+
+const morgan = require('morgan')
+app.use(morgan('dev'))
+
+******
+
+We can allow requests from other origins by using Node's cors middleware.
+In your backend repository, install cors with the command
+npm install cors
+
+
+*****
+fly auth login
+
+Initializing an app happens by running the following command in the root directory of the app
+
+
+Fly.io creates a file fly.toml
+[build]
+
+[env]
+  PORT = "3000" # add this
+
+[http_service]
+  internal_port = 3000 # ensure that this is same as PORT
+  force_https = true
+  auto_stop_machines = true
+  auto_start_machines = true
+  min_machines_running = 0
+  processes = ["app"]
+
+
+fly launch --no-deploy
+
+****
+render
+****
+front:
+npm run build
+
