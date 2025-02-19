@@ -8,6 +8,8 @@ const app = express()
 const cors = require('cors')
 app.use(cors()) // added for same origin policy
 
+app.use(express.static('dist')) // to create static render for dist, on the server
+
 app.use(express.json())
 //middleware morgan does the same
 // const requestLogger = (request, response, next) => {
