@@ -1,4 +1,37 @@
+// hat means your .env file is either not being loaded correctly or the variable isn't set properly.Steps to Fix: 1. Ensure dotenv is Required at the Top
+require('dotenv').config();
 
+//MONGOOSE PART START HERE
+// transefred to ./models/note.js
+
+
+// const mongoose = require('mongoose')
+
+// const password = process.argv[2]
+
+// // DO NOT SAVE YOUR PASSWORD TO GITHUB!!
+// const url = process.env.MONGODB_URI;
+
+// mongoose.set('strictQuery',false)
+// mongoose.connect(url)
+
+// const noteSchema = new mongoose.Schema({
+//   content: String,
+//   important: Boolean,
+// })
+
+// const Note = mongoose.model('Note', noteSchema)
+
+// noteSchema.set('toJSON', {
+//   transform: (document, returnedObject) => {
+//     returnedObject.id = returnedObject._id.toString() // Convert _id (ObjectId) to a string and store it in 'id'
+//     delete returnedObject._id // Remove the original _id field
+//     delete returnedObject.__v // Remove the __v field (used for versioning by Mongoose)
+//   }
+// });
+
+//MONGOOSE PART END HERE
+const Note = require('./models/note')
 
 // const http = require('http')
 // 1. Importing Express
@@ -61,7 +94,9 @@ app.get('/', (request, response) => {
 // 4. Route: Fetch All Notes (/api/notes)
 // τα νοτεσ τα βλεπω στο http://localhost:3001/api/notes
 app.get('/api/notes', (request, response) => {
-  response.json(notes)
+  Note.find({}).then(notes => {
+    response.json(notes)
+  })
 })
 
 app.get('/api/notes/:id', (request, response) => {
@@ -127,8 +162,16 @@ app.use(unknownEndpoint)
 // const PORT = 3001
 // app.listen(PORT)
 // console.log(`Server running on port ${PORT}`)
+
 // αυτή η αλλαγή είναι για να μπορέσουμενα μεταφερθούμε στο fly.io
-const PORT = process.env.PORT || 3001
+// const PORT = process.env.PORT || 3001
+// app.listen(PORT, () => {
+//   console.log(`Server running on port ${PORT}`)
+// })
+
+// αυτή η αλλαγή έγινε για να χρησιμοποιήσουμε το πορτ απο το env
+
+const PORT = process.env.PORT
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`)
 })
