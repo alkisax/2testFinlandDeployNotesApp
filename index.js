@@ -124,11 +124,22 @@ app.get('/api/notes/:id', (request, response) => {
     })
 })
 
-app.delete('/api/notes/:id', (request, response) => {
-  const id = request.params.id
-  notes = notes.filter(note => note.id !== id)
+app.delete('/api/notes/:id', (request, response, next) => {
+  // const id = request.params.id
+  // notes = notes.filter(note => note.id !== id)
+  // response.status(204).end()
+  // Note.findById(request.params.id)
+  Note.findByIdAndDelete(request.params.id)
+    .then(result => {
+      // if (note) {
+      //   response.json(note)
+      // } else {
+      //   response.status(404).end()
+      // }
+      response.status(294).end()
+    })
+    .catch(error => next(error))
 
-  response.status(204).end()
 })
 
 // this is a test and it only logs
@@ -177,11 +188,38 @@ app.post('/api/notes', (request, response) => {
     })
 })
 
+app.put('/api/notes/:id', (request, response, next) => {
+  const body = request.body
+
+  const note = {
+    content: body.content,
+    important: body.important,
+  }
+
+  Note.findByIdAndUpdate(request.params.id, note, { new: true })
+    .then(updatedNote => {
+      response.json(updatedNote)
+    })
+    .catch(error => next(error))
+})
+
 //catch error middleware
 const unknownEndpoint = (request, response) => {
   response.status(404).send({ error: 'unknown endpoint' })
 }
 app.use(unknownEndpoint)
+
+// Error handling middleware (MUST be last)
+const errorHandler = (error, request, response, next) => {
+  console.error(error.message);
+
+  if (error.name === 'CastError') {
+    return response.status(400).json({ error: 'malformatted id' });
+  }
+
+  next(error); // Pass error to Express default handler if not handled
+};
+app.use(errorHandler);
 
 // 5. Start the Server
 // const PORT = 3001
