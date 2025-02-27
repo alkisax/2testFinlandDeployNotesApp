@@ -26,10 +26,10 @@ const noteSchema = new mongoose.Schema({
 const Note = mongoose.model('Note', noteSchema)
 
 // το model δρα ως constructor
-const note = new Note({
-  content: 'geia soy mimika',
-  important: true,
-})
+// const note = new Note({
+//   content: 'geia soy mimika',
+//   important: true,
+// })
 
 //CRUD
 //Create

@@ -120,7 +120,7 @@ app.get('/api/notes/:id', (request, response) => {
     })
     .catch(error => {
       console.log(error)
-      response.status(400).send({ error: 'maloformated id' })      
+      response.status(400).send({ error: 'maloformated id' })
     })
 })
 
@@ -130,7 +130,8 @@ app.delete('/api/notes/:id', (request, response, next) => {
   // response.status(204).end()
   // Note.findById(request.params.id)
   Note.findByIdAndDelete(request.params.id)
-    .then(result => {
+    // .then(result => {
+    .then(() => {
       // if (note) {
       //   response.json(note)
       // } else {
@@ -164,8 +165,8 @@ app.post('/api/notes', (request, response, next) => {
   }
 
   if (!body.content) {
-    return response.status(400).json({ 
-      error: 'content missing' 
+    return response.status(400).json({
+      error: 'content missing'
     })
   }
 
@@ -203,8 +204,8 @@ app.put('/api/notes/:id', (request, response, next) => {
   // }
 
   Note.findByIdAndUpdate(
-    request.params.id, 
-    { content, important }, 
+    request.params.id,
+    { content, important },
     { new: true, runValidators: true, context: 'query' }
   )
     .then(updatedNote => {

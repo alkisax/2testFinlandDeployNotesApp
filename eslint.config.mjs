@@ -6,9 +6,13 @@ import stylisticJs from '@stylistic/eslint-plugin-js'
 /** @type {import('eslint').Linter.Config[]} */
 export default [
   js.configs.recommended,
+  {
+    ignores: ["dist/**", "node_modules/**", "build/**"],
+  },
   {    
     // ignores: ["dist/**"],
-    ignores: ["dist/**", "node_modules/**", "dist/assets/index-CB1-m9sl.js"],
+    // ignores: ["dist/**", "node_modules/**"],
+    // ignores: ["**/dist/**", "node_modules/**", "dist/assets/index-CB1-m9sl.js"],
     files: ["**/*.js"],
     languageOptions: {
       sourceType: "commonjs",
@@ -21,6 +25,16 @@ export default [
       '@stylistic/js': stylisticJs
     },
     rules: {
+      'eqeqeq': 'error',
+      'no-trailing-spaces': 'error',
+      'object-curly-spacing': [
+        'error', 'always'
+      ],
+      'arrow-spacing': [
+        'error', { 'before': true, 'after': true },
+      ],
+      'no-console': 'off',
+
       '@stylistic/js/indent': [
         'error',
         2
