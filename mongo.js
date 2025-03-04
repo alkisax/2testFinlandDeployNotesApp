@@ -10,7 +10,7 @@ const password = process.argv[2]
 
 // το url to πείρα απο το atlas mongodb
 const url =
-  `mongodb+srv://alkisax:${password}@cluster0.8ioq6.mongodb.net/noteApp?retryWrites=true&w=majority&appName=Cluster0`
+  `mongodb+srv://alkisax:${password}@cluster0.8ioq6.mongodb.net/testNoteApp?retryWrites=true&w=majority&appName=Cluster0`
 
 mongoose.set('strictQuery',false)
 
@@ -24,6 +24,20 @@ const noteSchema = new mongoose.Schema({
 
 // με το schema φτιάχνω Model
 const Note = mongoose.model('Note', noteSchema)
+
+// Data to be inserted from gpt
+// const notes = [
+//   {
+//     content: 'HTML is easy!',
+//     important: true,
+//     id: '67b784b90f818a3bbf8979e9',
+//   },
+//   {
+//     content: 'geia soy alki',
+//     important: true,
+//     id: '67b7876bddf359f2b1ee4a70',
+//   },
+// ]
 
 // το model δρα ως constructor
 // const note = new Note({
@@ -41,9 +55,21 @@ const Note = mongoose.model('Note', noteSchema)
 
 //read
 //για να βρώ
+
 Note.find({}).then(result => {
   result.forEach(note => {
     console.log(note)
   })
   mongoose.connection.close()
 })
+
+//gpt
+// Note.insertMany(notes)
+//   .then(() => {
+//     console.log('Notes added to the database!')
+//     mongoose.connection.close()
+//   })
+//   .catch((error) => {
+//     console.error('Error inserting notes:', error)
+//     mongoose.connection.close()
+//   })
