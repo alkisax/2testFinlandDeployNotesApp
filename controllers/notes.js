@@ -17,6 +17,10 @@ notesRouter.get('/:id', async (request, response) => {
 notesRouter.post('/', async (request, response) => {
   const body = request.body
 
+  if (!body.content) {
+    return response.status(400).json({ error: 'Content is missing' })
+  }
+
   const note = new Note({
     content: body.content,
     important: body.important || false,
@@ -27,7 +31,10 @@ notesRouter.post('/', async (request, response) => {
 })
 
 notesRouter.delete('/:id', async (request, response) => {
-  await Note.findByIdAndDelete(request.params.id)
+  const note = await Note.findByIdAndDelete(request.params.id)
+  if (!note) {
+    return response.status(404).json({ error: 'Note not found' })
+  }
   response.status(204).end()
 })
 
