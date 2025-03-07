@@ -7,7 +7,7 @@ const app = require('../app')
 const helper = require('./test_helper')
 const bcrypt = require('bcrypt')
 const User = require('../models/user')
-const { log } = require('node:console')
+// const { log } = require('node:console')
 
 const api = supertest(app)
 
