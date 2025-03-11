@@ -10,15 +10,21 @@ const getAll = () => {
   return request.then(response => response.data)
 }*/
 
-const getAll = () => {
-  const request = axios.get(baseUrl)
-  const nonExisting = {
-    id: 10000,
-    content: 'This note is not saved to server',
-    important: true,
-  }
-  return request.then(response => response.data.concat(nonExisting))
-}
+// const getAll = () => {
+//   const request = axios.get(baseUrl)
+//   // const nonExisting = {
+//   //   id: 10000,
+//   //   content: 'This note is not saved to server',
+//   //   important: true,
+//   // }
+//   // return request.then(response => response.data.concat(nonExisting))
+//   return request.then(response => response.data)
+// }
+
+const getAll = async () => {
+  const response = await axios.get(baseUrl);
+  return response.data;
+};
 
 const create = newObject => {
   const request = axios.post(baseUrl, newObject)

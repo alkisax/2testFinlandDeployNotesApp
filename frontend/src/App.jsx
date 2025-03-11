@@ -1,8 +1,9 @@
 import { useState, useEffect } from 'react'
-// import axios from 'axios'
 import Note from './components/Note'
 import noteService from './services/notes'
+import login from './services/login'
 import './index.css'
+// import axios from 'axios'
 // import notification from './components/Notification'
 
 const App = () => {
@@ -11,7 +12,8 @@ const App = () => {
   const [showAll, setShowAll] = useState(false)
   // const [errorMessage, setErrorMessage] = useState(null)
   const [username, setUsername] = useState('') 
-  const [password, setPassword] = useState('') 
+  const [password, setPassword] = useState('')
+  const [user, setUser] = useState(null)
 
   useEffect(() => {
     noteService
@@ -63,24 +65,22 @@ const App = () => {
     ? notes
     : notes.filter(note => note.important)
 
-  const Footer = () => {
-    const footerStyle = {
-      color: 'green',
-      fontStyle: 'italic',
-      fontSize: 16
-    }
-    return (
-      <div style={footerStyle}>
-        <br />
-        <em>Note app, Department of Computer Science, University of Helsinki 2024</em>
-      </div>
-    )
-  }
-
-  const handleLogin = (event) => {
-    event.preventDefault()
-    console.log('logging in with', username, password)
-  }
+    const handleLogin = async (event) => {
+      event.preventDefault()
+      
+      try {
+        const user = await loginService.login({
+          username, password,
+        })
+        setUser(user)
+        setUsername('')
+        setPassword('')
+      } catch (exception) {
+        setErrorMessage('Wrong credentials')
+        setTimeout(() => {
+          setErrorMessage(null)
+        }, 5000)
+      }
 
   return (
     <div>
@@ -135,5 +135,20 @@ const App = () => {
     </div>
   )
 }
+
+
+  const Footer = () => {
+    const footerStyle = {
+      color: 'green',
+      fontStyle: 'italic',
+      fontSize: 16
+    }
+    return (
+      <div style={footerStyle}>
+        <br />
+        <em>Note app, Department of Computer Science, University of Helsinki 2024</em>
+      </div>
+    )
+  }
 
 export default App
