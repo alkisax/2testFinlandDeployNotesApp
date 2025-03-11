@@ -1,16 +1,19 @@
 import { useState, useEffect } from 'react'
 import Note from './components/Note'
+import LoginForm from './components/LoginForm'
+import NoteForm from './components/NoteForm'
 import noteService from './services/notes'
-import login from './services/login'
+import loginService from './services/login'
+import Notification from './components/Notification'
 import './index.css'
 // import axios from 'axios'
-// import notification from './components/Notification'
+
 
 const App = () => {
   const [notes, setNotes] = useState([])
   const [newNote, setNewNote] = useState('')
   const [showAll, setShowAll] = useState(false)
-  // const [errorMessage, setErrorMessage] = useState(null)
+  const [errorMessage, setErrorMessage] = useState(null)
   const [username, setUsername] = useState('') 
   const [password, setPassword] = useState('')
   const [user, setUser] = useState(null)
@@ -49,12 +52,14 @@ const App = () => {
         .then(returnedNote => {
         setNotes(notes.map(note => note.id !== id ? note : returnedNote))
       })
-      // .catch(error => {
-      //   alert(
-      //     `the note '${note.content}' was already deleted from server`
-      //   )
-      //   setNotes(notes.filter(n => n.id !== id))
-      // })
+      .catch(error => {
+        console.log(error);
+        
+        alert(
+          `the note '${note.content}' was already deleted from server`
+        )
+        setNotes(notes.filter(n => n.id !== id))
+      })
   }
 
   const handleNoteChange = (event) => {
@@ -65,50 +70,49 @@ const App = () => {
     ? notes
     : notes.filter(note => note.important)
 
-    const handleLogin = async (event) => {
-      event.preventDefault()
-      
-      try {
-        const user = await loginService.login({
-          username, password,
-        })
-        setUser(user)
-        setUsername('')
-        setPassword('')
-      } catch (exception) {
-        setErrorMessage('Wrong credentials')
-        setTimeout(() => {
-          setErrorMessage(null)
-        }, 5000)
-      }
+  const handleLogin = async (event) => {
+    event.preventDefault()
+    try {
+      const user = await loginService.login({
+        username, password,
+      })
+      noteService.setToken(user.token)
+      setUser(user)
+      setUsername('')
+      setPassword('')
+    } catch (exception) {
+      setErrorMessage('Wrong credentials', exception)
+      setTimeout(() => {
+        setErrorMessage(null)
+      }, 5000)
+    }  
+  }
 
   return (
     <div>
       <h1>Notes</h1>
-      {/* <Notification message={errorMessage} /> */}
+      <Notification message={errorMessage} />
 
-      <form onSubmit={handleLogin}>
+      {/* the server response (including a token and the user details) is saved to the user field  */}
+      {user === null && <LoginForm 
+        handleLogin={handleLogin} 
+        username={username} 
+        password={password} 
+        setUsername={setUsername} 
+        setPassword={setPassword}
+      />}
+      {user !== null && (
         <div>
-          username
-            <input
-            type="text"
-            value={username}
-            name="Username"
-            onChange={({ target }) => setUsername(target.value)}
+          <p>{user.name} logged in</p>
+          <NoteForm 
+            addNote={addNote} 
+            newNote={newNote} 
+            handleNoteChange={handleNoteChange} 
           />
         </div>
-        <div>
-          password  
-            <input
-            type="password"
-            value={password}
-            name="Password"
-            onChange={({ target }) => setPassword(target.value)}
-          />
-        </div>
-        <button type="submit">login</button>
-      </form>
+      )}
 
+      <h2>Notes</h2>
       <div>
         <button onClick={() => setShowAll(!showAll)}>
           show {showAll ? 'important' : 'all' }
