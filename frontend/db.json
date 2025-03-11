@@ -1,0 +1,99 @@
+{
+  "notes": [
+    {
+      "id": "1",
+      "content": "HTML is easy",
+      "important": true
+    },
+    {
+      "id": "2",
+      "content": "Browser can execute only JavaScript",
+      "important": false
+    },
+    {
+      "id": "3",
+      "content": "GET and POST are the most important methods of HTTP protocol",
+      "important": true
+    },
+    {
+      "id": "4",
+      "content": "the enemy is behind us. He is surrounded",
+      "important": false
+    },
+    {
+      "id": "f332",
+      "content": "asfasdf",
+      "important": false
+    },
+    {
+      "id": "7a47",
+      "content": "sdfgsdf",
+      "important": false
+    },
+    {
+      "id": "db4e",
+      "content": "xfdshg",
+      "important": false
+    },
+    {
+      "id": "2652",
+      "content": "asdf",
+      "important": false
+    },
+    {
+      "id": "a89e",
+      "content": "123",
+      "important": false
+    },
+    {
+      "id": "2363",
+      "content": "123",
+      "important": true
+    },
+    {
+      "id": "51c2",
+      "content": "123",
+      "important": true
+    },
+    {
+      "id": "1dab",
+      "content": "123",
+      "important": true
+    },
+    {
+      "id": "2d65",
+      "content": "13",
+      "important": false
+    },
+    {
+      "id": "8be6",
+      "content": "13",
+      "important": false
+    },
+    {
+      "id": "57bb",
+      "content": "sdfg",
+      "important": true
+    },
+    {
+      "id": "f3b1",
+      "content": "σφδγ",
+      "important": false
+    },
+    {
+      "id": "0b17",
+      "content": "φηξφγηξφξ",
+      "important": false
+    },
+    {
+      "id": "fdcf",
+      "content": "iugguihou",
+      "important": true
+    },
+    {
+      "id": "e0b5",
+      "content": "dfhgd",
+      "important": false
+    }
+  ]
+}
