@@ -5,6 +5,7 @@ import NoteForm from './components/NoteForm'
 import noteService from './services/notes'
 import loginService from './services/login'
 import Notification from './components/Notification'
+import Togglable from './components/Togglable'
 import './index.css'
 // import axios from 'axios'
 
@@ -17,6 +18,7 @@ const App = () => {
   const [username, setUsername] = useState('') 
   const [password, setPassword] = useState('')
   const [user, setUser] = useState(null)
+  // const [loginVisible, setLoginVisible] = useState(false)
 
   useEffect(() => {
     noteService
@@ -101,27 +103,68 @@ const App = () => {
     }  
   }
 
+  const handleLogout = (event) => {
+    event.preventDefault()
+    window.localStorage.clear()
+    setUser(null)
+  }
+
+  // const loginForm = () => {
+  //   const hideWhenVisible = { display: loginVisible ? 'none' : '' }
+  //   const showWhenVisible = { display: loginVisible ? '' : 'none' }
+
+  //   return (
+  //     <div>
+  //       <div style={hideWhenVisible}>
+  //         <button onClick={() => setLoginVisible(true)}>log in</button>
+  //       </div>
+  //       <div style={showWhenVisible}>
+  //         <LoginForm
+  //           username={username}
+  //           password={password}
+  //           setUsername={setUsername}
+  //           setPassword={setPassword}
+  //           handleLogin={handleLogin}
+  //         />
+  //         <button onClick={() => setLoginVisible(false)}>cancel</button>
+  //       </div>
+  //     </div>
+  //   )
+  // }
+
   return (
     <div>
       <h1>Notes</h1>
       <Notification message={errorMessage} />
 
-      {/* the server response (including a token and the user details) is saved to the user field  */}
-      {user === null && <LoginForm 
-        handleLogin={handleLogin} 
-        username={username} 
-        password={password} 
-        setUsername={setUsername} 
-        setPassword={setPassword}
-      />}
+      {user === null && (
+        // αυτο θα περάσει ως props.buttonLabel
+        <Togglable buttonLabel='login'> 
+          {/* και ολο το <LoginForm /> ως props.children */}
+          <LoginForm
+            username={username}
+            password={password}
+            setUsername={setUsername}
+            setPassword={setPassword}
+            handleLogin={handleLogin}
+          />
+        </Togglable>
+      )}
       {user !== null && (
         <div>
-          <p>{user.name} logged in</p>
-          <NoteForm 
-            addNote={addNote} 
-            newNote={newNote} 
-            handleNoteChange={handleNoteChange} 
-          />
+          <div>
+            <p style={{ margin: 0, display: 'inline' }}>{user.name} logged in </p>
+            <button onClick={handleLogout}>logout</button>
+          </div>
+          <br />
+
+          <Togglable buttonLabel="new note">
+            <NoteForm 
+              addNote={addNote} 
+              newNote={newNote} 
+              handleNoteChange={handleNoteChange} 
+            />
+          </Togglable>
         </div>
       )}
 
