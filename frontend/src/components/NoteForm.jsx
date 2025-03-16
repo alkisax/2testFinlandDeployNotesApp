@@ -1,4 +1,32 @@
-const NoteForm = ({ addNote, newNote, handleNoteChange }) => {
+import { useState } from 'react'
+import noteService from '../services/notes'
+
+// const NoteForm = ({ addNote, newNote, handleNoteChange }) => {
+const NoteForm = ({ setNotes, notes }) => {
+
+  const [newNote, setNewNote] = useState('')
+
+  const addNote = (event) => {
+    event.preventDefault()
+    const noteObject = {
+      content: newNote,
+      important: true
+      // important: Math.random() > 0.5,
+    }
+  
+    noteService
+      .create(noteObject)
+      .then(returnedNote => {
+      setNotes(notes.concat(returnedNote))
+      setNewNote('')
+    })
+  }
+
+  const handleNoteChange = (event) => {
+    setNewNote(event.target.value)
+  }
+
+
   return (
     <div>
       <h2>Create a new note</h2>

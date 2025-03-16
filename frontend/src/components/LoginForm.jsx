@@ -1,10 +1,37 @@
+import loginService from '../services/login'
+import noteService from '../services/notes'
+
   const LoginForm = ({ 
-    handleLogin, 
+    // handleLogin,
+    setUser,
     username, 
     password, 
     setUsername, 
     setPassword, 
+    setErrorMessage
   }) => {
+
+    const handleLogin = async (event) => {
+      event.preventDefault()
+      try {
+        const user = await loginService.login({
+          username, password,
+        })
+  
+        window.localStorage.setItem(
+          'loggedNoteappUser', JSON.stringify(user)
+        ) 
+        noteService.setToken(user.token)
+        setUser(user)
+        setUsername('')
+        setPassword('')
+      } catch (exception) {
+        setErrorMessage(`Wrong credentials, ${exception.message}`)
+        setTimeout(() => {
+          setErrorMessage(null)
+        }, 5000)
+      }  
+    }
 
     return (
       <div>
