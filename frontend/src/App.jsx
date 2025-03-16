@@ -1,4 +1,6 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
+// import { useState, useEffect } from 'react'
+
 import Note from './components/Note'
 import LoginForm from './components/LoginForm'
 import NoteForm from './components/NoteForm'
@@ -19,6 +21,8 @@ const App = () => {
   const [password, setPassword] = useState('')
   const [user, setUser] = useState(null)
   // const [loginVisible, setLoginVisible] = useState(false)
+
+  const noteFormRef = useRef()
 
   useEffect(() => {
     noteService
@@ -93,10 +97,12 @@ const App = () => {
           </div>
           <br />
 
-          <Togglable buttonLabel="new note">
+          <Togglable buttonLabel="new note" ref={noteFormRef}>
+          {/* <Togglable buttonLabel="new note"> */}
             <NoteForm 
               setNotes={setNotes}
               notes={notes}
+              noteFormRef={noteFormRef}
             />
           </Togglable>
         </div>
@@ -132,7 +138,7 @@ const App = () => {
     return (
       <div style={footerStyle}>
         <br />
-        <em>Note app, Department of Computer Science, University of Helsinki 2024</em>
+        <em>Note app. Created as part of exercise during the lessons of Full Stack Finland Mooc</em>
       </div>
     )
   }

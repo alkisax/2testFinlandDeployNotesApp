@@ -2,7 +2,9 @@ import { useState } from 'react'
 import noteService from '../services/notes'
 
 // const NoteForm = ({ addNote, newNote, handleNoteChange }) => {
-const NoteForm = ({ setNotes, notes }) => {
+const NoteForm = ({ setNotes, notes, noteFormRef }) => {
+// const NoteForm = ({ setNotes, notes }) => {
+
 
   const [newNote, setNewNote] = useState('')
 
@@ -20,6 +22,7 @@ const NoteForm = ({ setNotes, notes }) => {
       setNotes(notes.concat(returnedNote))
       setNewNote('')
     })
+    noteFormRef.current.toggleVisibility()
   }
 
   const handleNoteChange = (event) => {
