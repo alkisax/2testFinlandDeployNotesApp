@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types'
 import loginService from '../services/login'
 import noteService from '../services/notes'
 
@@ -63,6 +64,15 @@ import noteService from '../services/notes'
         </form> 
       </div>
     )     
+  }
+
+  LoginForm.propTypes = {
+    setUser: PropTypes.func.isRequired,
+    username: PropTypes.string.isRequired,
+    password: PropTypes.string.isRequired,
+    setUsername: PropTypes.func.isRequired,
+    setPassword: PropTypes.func.isRequired,
+    setErrorMessage: PropTypes.func.isRequired
   }
 
   export default LoginForm
