@@ -1,10 +1,7 @@
 import { useState } from 'react'
 import noteService from '../services/notes'
 
-// const NoteForm = ({ addNote, newNote, handleNoteChange }) => {
 const NoteForm = ({ setNotes, notes, noteFormRef }) => {
-// const NoteForm = ({ setNotes, notes }) => {
-
 
   const [newNote, setNewNote] = useState('')
 
